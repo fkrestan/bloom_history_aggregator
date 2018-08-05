@@ -19,6 +19,7 @@ from unittest import mock
 import pytest
 
 from context import blooming_history_aggregator as bha
+import libbloom_bindings
 
 
 @pytest.mark.parametrize("timestamp_from, timestamp_to, expected", [
@@ -95,8 +96,8 @@ def make_tests_relative_path(*args):
 
 @pytest.mark.parametrize('bloom_filename', glob.glob(make_tests_relative_path('bloom/*.bloom')))
 def test_bloom_serialize(bloom_filename):
-    bloom = bha.libbloom_bindings.ffi.new('struct bloom *')
-    bha.libbloom_bindings.lib.bloom_file_read_(bloom, bloom_filename.encode('utf-8'))
+    bloom = libbloom_bindings.ffi.new('struct bloom *')
+    libbloom_bindings.lib.bloom_file_read_(bloom, bloom_filename.encode('utf-8'))
 
     bloom_buffer = bha.api.bloom_serialize(bloom)
 
@@ -109,7 +110,7 @@ def test_bloom_serialize(bloom_filename):
 
 
 def test_bloom_serialize_uninitialized_bloom():
-    bloom = bha.libbloom_bindings.ffi.new('struct bloom *')
+    bloom = libbloom_bindings.ffi.new('struct bloom *')
 
     with pytest.raises(bha.api.LibbloomError):
         bha.api.bloom_serialize(bloom)

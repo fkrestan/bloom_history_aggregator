@@ -18,7 +18,7 @@ import glob
 
 from flask import Flask, abort, request, make_response
 
-from .libbloom_bindings import lib, ffi
+from libbloom_bindings import lib, ffi
 
 app = Flask(__name__)
 

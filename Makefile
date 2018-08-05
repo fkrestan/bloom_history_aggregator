@@ -1,8 +1,8 @@
 init:
 	pipenv install
 
-test:
-	py.test -vs --fulltrace tests/
+test: build
+	PYTHONPATH="$PYTHONPATH:./build/lib.linux-x86_64-3.6/" py.test -vs --fulltrace tests/
 
 build:
 	python3 setup.py build

@@ -104,7 +104,7 @@ def test_bloom_serialize(bloom_filename):
     with open(bloom_filename, 'rb') as f:
         bloom_buffer_file = f.read()
 
-    assert type(bloom_buffer) == bytes
+    assert isinstance(bloom_buffer, bytes)
     assert len(bloom_buffer) == len(bloom_buffer_file)
     assert bloom_buffer == bloom_buffer_file
 

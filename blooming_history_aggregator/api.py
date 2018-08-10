@@ -154,7 +154,7 @@ def ednpoint_bloom(uuid_, timestamp_from, timestamp_to):
     if timestamp_from >= timestamp_to:
         abort(400)
 
-    directory = str(app.instance_path.join(str(uuid_)))
+    directory = os.path.join(app.instance_path, str(uuid_))
 
     if request.method == 'POST':
         return post_bloom(directory, timestamp_from, timestamp_to, request.data)

@@ -16,11 +16,10 @@ import os
 import re
 import glob
 
-from flask import Flask, abort, request, make_response
+from flask import abort, request, make_response
 
+from . import app
 from libbloom_bindings import lib, ffi
-
-app = Flask(__name__)
 
 GET_MERGED_HEADERS = {'Content-Type': 'application/octet-stream'}
 RE_BLOOM_FILENAME = re.compile(r'(\d+)-(\d+)\.bloom')

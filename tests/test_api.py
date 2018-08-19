@@ -170,6 +170,25 @@ def test_health(app_client):
     assert app_client.get('/health').status_code == 200
 
 
+@pytest.mark.parametrize('timestamp_from, timestamp_to', [
+    ('0', '4'),
+    ('1', '3'),
+    ('2', '3'),
+])
+def test_delete_bloom(timestamp_from, timestamp_to, app_client, tmpdir):
+    uuid_ = 'a21fd80d-4c7a-48c5-975f-0940e1ad3841'
+    directory = os.path.join(tmpdir, uuid_)
+    os.makedirs(directory, exist_ok=True)
+
+    open(os.path.join(directory, bha.api.filename_make(1, 2)), 'a').close()
+    open(os.path.join(directory, bha.api.filename_make(3, 4)), 'a').close()
+
+    app_client.delete('{}/{}/{}/'.format(uuid_, timestamp_from, timestamp_to))
+    files = bha.api.filename_filter('a21fd80d-4c7a-48c5-975f-0940e1ad3841', 2, 4)
+
+    assert list(files) == []
+
+
 @pytest.mark.parametrize('input_file, timestamp_from, timestamp_to, uuid_', [
     ('test-10000-0.01-1-2-3-4.bloom', '1', '2', 'a21fd80d-4c7a-48c5-975f-0940e1ad3841'),
 ])

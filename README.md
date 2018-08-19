@@ -54,6 +54,19 @@ This application exposes two endpoints.
 
   Content-type must be `application/octet-stream`.
 
+- `DELETE /<uuid:uuid>/<int:timestamp_from>/<int:timestamp_to>`
+  Delete Bloom filters in specified time-range. This endpoint is intended
+  to be used for deletion of history in case a DDoS or any other malicious
+  traffic got into the Bloom filters.
+
+  - `uuid` - assigned universally unique identifier according to RFC 4122.
+  - `timestamp_from` - unix timestamp marking the start of the time-range
+    for Bloom filter deletion. The timestamp is inclusive.
+  - `timestamp_to` - unix timestamp marking the end of the time-range
+    for Bloom filter deletion. The timestamp is inclusive.
+
+  Content-type must be `application/octet-stream`.
+
 - `GET /<uuid:uuid>/<int:timestamp_from>/<int:timestamp_to>`
   Get aggregated/merged Bloom filter spanning given time range. Response data
   contains only aggregated Bloom filter in binary serialized form as produced

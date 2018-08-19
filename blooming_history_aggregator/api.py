@@ -133,6 +133,21 @@ def post_bloom(directory, timestamp_from, timestamp_to, bloom_data):
     return make_response('OK', 200)
 
 
+def delete_bloom(directory, timestamp_from, timestamp_to):
+    files = filename_filter(directory, timestamp_from, timestamp_to)
+
+    if not os.path.exists(directory):
+        abort(404)
+
+    if not files:
+        abort(404)
+
+    for file_name in files:
+        os.remove(file_name)
+
+    return make_response("OK", 200)
+
+
 def get_merged(directory, timestamp_from, timestamp_to):
     files = filename_filter(directory, timestamp_from, timestamp_to)
 
@@ -147,7 +162,7 @@ def get_merged(directory, timestamp_from, timestamp_to):
 
 
 # TODO user auth - hmac could be enough for starters
-@app.route('/<uuid:uuid_>/<int:timestamp_from>/<int:timestamp_to>/', methods=['GET', 'POST'])
+@app.route('/<uuid:uuid_>/<int:timestamp_from>/<int:timestamp_to>/', methods=['GET', 'POST', 'DELETE'])
 def ednpoint_bloom(uuid_, timestamp_from, timestamp_to):
     if timestamp_from >= timestamp_to:
         abort(400)
@@ -156,6 +171,8 @@ def ednpoint_bloom(uuid_, timestamp_from, timestamp_to):
 
     if request.method == 'POST':
         return post_bloom(directory, timestamp_from, timestamp_to, request.data)
+    if request.method == 'DELETE':
+        return delete_bloom(directory, timestamp_from, timestamp_to)
 
     return get_merged(directory, timestamp_from, timestamp_to)
 

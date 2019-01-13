@@ -58,10 +58,8 @@ def test_filename_parse(timestamp_from, timestamp_to, filename):
     ('11.bloom', AttributeError),
     (None, TypeError),
     ('1-1', AttributeError),
-    ('/var/lib/blooming_history_aggregator/0932778e-90a4-445c-a8a3-311817b6e0ba/.boom',
-     AttributeError),
-    ('/var/lib/blooming_history_aggregator/0932778e-90a4-445c-a8a3-311817b6e0ba/a-1.boom',
-     AttributeError),
+    ('/var/lib/bloom_history_aggregator/1/.boom', AttributeError),
+    ('/var/lib/bloom_history_aggregator/0/a-1.boom', AttributeError),
 ])
 def test_filename_parse_fail(filename, error_type):
     with pytest.raises(error_type):
@@ -176,27 +174,27 @@ def test_health(app_client):
     ('2', '3'),
 ])
 def test_delete_bloom(timestamp_from, timestamp_to, app_client, tmpdir):
-    uuid_ = 'a21fd80d-4c7a-48c5-975f-0940e1ad3841'
-    directory = os.path.join(tmpdir, uuid_)
+    prefix_id = '0'
+    directory = os.path.join(tmpdir, prefix_id)
     os.makedirs(directory, exist_ok=True)
 
     open(os.path.join(directory, bha.api.filename_make(1, 2)), 'a').close()
     open(os.path.join(directory, bha.api.filename_make(3, 4)), 'a').close()
 
-    app_client.delete('{}/{}/{}/'.format(uuid_, timestamp_from, timestamp_to))
-    files = bha.api.filename_filter('a21fd80d-4c7a-48c5-975f-0940e1ad3841', 2, 4)
+    app_client.delete('{}/{}/{}/'.format(prefix_id, timestamp_from, timestamp_to))
+    files = bha.api.filename_filter(0, 2, 4)
 
     assert list(files) == []
 
 
-@pytest.mark.parametrize('input_file, timestamp_from, timestamp_to, uuid_', [
-    ('test-10000-0.01-1-2-3-4.bloom', '1', '2', 'a21fd80d-4c7a-48c5-975f-0940e1ad3841'),
+@pytest.mark.parametrize('input_file, timestamp_from, timestamp_to, prefix_id', [
+    ('test-10000-0.01-1-2-3-4.bloom', '1', '2', '0'),
 ])
-def test_bloom_post(app_client, tmpdir, input_file, timestamp_from, timestamp_to, uuid_):
+def test_bloom_post(app_client, tmpdir, input_file, timestamp_from, timestamp_to, prefix_id):
     input_file_path = make_tests_relative_path('bloom', input_file)
 
     result_file = bha.api.filename_make(timestamp_from, timestamp_to)
-    result_directory = str(tmpdir.join(uuid_))
+    result_directory = str(tmpdir.join(prefix_id))
 
     with open(input_file_path, 'rb') as f:
         input_data = f.read()
@@ -214,8 +212,8 @@ def test_bloom_post(app_client, tmpdir, input_file, timestamp_from, timestamp_to
 
 @pytest.fixture()
 def populated_bloom_dir(tmpdir):
-    uuid_ = 'a21fd80d-4c7a-48c5-975f-0940e1ad3841'
-    result_directory = str(tmpdir.join(uuid_))
+    prefix_id = '0'
+    result_directory = str(tmpdir.join(prefix_id))
     input_ = [('test-10000-0.01-1-2-3-4.bloom', '1', '2'), ('test-10000-0.01-4-5-6-7.bloom', '2',
                                                             '3')]
 

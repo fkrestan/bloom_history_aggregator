@@ -12,6 +12,6 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
-from blooming_history_aggregator import app
+from bloom_history_aggregator import app
 
 app.run()

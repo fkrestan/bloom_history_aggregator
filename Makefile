@@ -4,7 +4,7 @@ init:
 run: build
 	PYTHONPATH=build/lib.linux-x86_64-3.6/:$(PYTHONPATH) \
 	FLASK_DEBUG=1 \
-	FLASK_APP=blooming_history_aggregator \
+	FLASK_APP=bloom_history_aggregator \
 	flask run --host 0.0.0.0
 
 test: build
@@ -18,7 +18,7 @@ dist: clean
 	python3 setup.py sdist bdist_wheel
 
 clean:
-	rm -rf build/ dist/ blooming_history_aggregator_service.egg-info/
+	rm -rf build/ dist/ bloom_history_aggregator_service.egg-info/
 	find . -type d -name __pycache__ -exec rm -rf {} \+
 	find . -type f -name "*.pyc" -exec rm -rf {} \+
 

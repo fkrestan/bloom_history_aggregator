@@ -18,7 +18,7 @@ from unittest import mock
 
 import pytest
 
-from context import blooming_history_aggregator as bha
+from context import bloom_history_aggregator as bha
 import libbloom_bindings
 
 
@@ -45,7 +45,7 @@ def test_filename_make_fail(timestamp_from, timestamp_to, error_type):
     (1, 4, '1-4.bloom'),
     (1, 2, 'a/1-2.bloom'),
     (1, 2, '../a/1-2.bloom'),
-    (1, 2, '/var/lib/blooming_history_aggregator/0932778e-90a4-445c-a8a3-311817b6e0ba/1-2.bloom'),
+    (1, 2, '/var/lib/bloom_history_aggregator/0932778e-90a4-445c-a8a3-311817b6e0ba/1-2.bloom'),
 ])
 def test_filename_parse(timestamp_from, timestamp_to, filename):
     assert bha.api.filename_parse(filename) == [timestamp_from, timestamp_to]

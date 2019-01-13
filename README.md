@@ -1,10 +1,10 @@
-Blooming History Aggregator Service
+Bloom History Aggregator Service
 ===================================
 
-An aggregation REST API service for the Blooming History DDoS mitigation
+An aggregation REST API service for the Bloom History DDoS mitigation
 project which builds on idea described in [the original whitepaper][4]. This
 service is a "middleman" storage between Bloom filter producer such as
-[Blooming History NEMEA plugin][1] and a Bloom filter user (e.g. DDoS
+[Bloom History NEMEA plugin][1] and a Bloom filter user (e.g. DDoS
 mitigation SW/HW). If you are unsure what this thing does, or why is it even
 needed, keep reading - We will try to explain everything.
 
@@ -33,7 +33,7 @@ last 14 days). This aggregated filter contains information about all the
 
 See:
 
-- acompaniing *Blooming history* module in [NEMEA repo][1]
+- acompaniing *Bloom history* module in [NEMEA repo][1]
 - [extended libbloom library][2] used both in this project and NEMEA plugin
 
 
@@ -102,7 +102,7 @@ Example for `Python3.6` on Linux:
 
 ```
 make dist
-pip3 install dist/blooming_history_aggregator_service-0.0.1-cp36-cp36m-linux_x86_64.whl
+pip3 install dist/bloom_history_aggregator_service-0.0.1-cp36-cp36m-linux_x86_64.whl
 ```
 
 

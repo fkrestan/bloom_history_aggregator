@@ -161,12 +161,12 @@ def get_merged(directory, timestamp_from, timestamp_to):
     return make_response(merged, 200, GET_MERGED_HEADERS)
 
 
-@app.route('/<uuid:uuid_>/<int:timestamp_from>/<int:timestamp_to>/', methods=['GET', 'POST', 'DELETE'])
-def ednpoint_bloom(uuid_, timestamp_from, timestamp_to):
+@app.route('/<int:prefix_id>/<int:timestamp_from>/<int:timestamp_to>/', methods=['GET', 'POST', 'DELETE'])
+def ednpoint_bloom(prefix_id, timestamp_from, timestamp_to):
     if timestamp_from >= timestamp_to:
         abort(400)
 
-    directory = os.path.join(app.instance_path, str(uuid_))
+    directory = os.path.join(app.instance_path, str(prefix_id))
 
     if request.method == 'POST':
         return post_bloom(directory, timestamp_from, timestamp_to, request.data)

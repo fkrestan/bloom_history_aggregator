@@ -41,7 +41,7 @@ def filename_parse(file_path):
 
 
 def filename_filter(dirname, timestamp_from, timestamp_to):
-    for file_path in glob.glob(dirname + '/*.bloom'):
+    for file_path in glob.glob(str(dirname) + '/*.bloom'):
         try:
             file_timestamp_from, file_timestamp_to = filename_parse(file_path)
             if int(timestamp_from) <= file_timestamp_from and int(timestamp_to) >= file_timestamp_to:
